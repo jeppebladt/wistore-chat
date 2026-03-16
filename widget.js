@@ -1,62 +1,65 @@
-<style>
-#wsc-btn{position:fixed;bottom:24px;right:24px;width:56px;height:56px;border-radius:50%;background:#1a1a2e;border:none;cursor:pointer;z-index:99999;box-shadow:0 4px 16px rgba(0,0,0,0.2)}
-#wsc-btn svg{width:26px;height:26px;fill:#fff;display:block;margin:auto}
-#wsc-win{position:fixed;bottom:90px;right:24px;width:340px;max-height:500px;background:#fff;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,0.15);display:none;flex-direction:column;z-index:99998;font-family:Arial,sans-serif;overflow:hidden}
-#wsc-head{background:#1a1a2e;color:#fff;padding:14px 18px;display:flex;align-items:center;gap:10px}
-#wsc-head-text{flex:1}
-#wsc-head-title{font-size:15px;font-weight:bold}
-#wsc-head-sub{font-size:11px;opacity:0.7;margin-top:2px}
-#wsc-close{background:none;border:none;color:#fff;font-size:22px;cursor:pointer;padding:0;line-height:1;opacity:0.8}
-#wsc-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:#f7f7f5;min-height:200px}
-.wsc-bot{background:#fff;border:1px solid #e5e5e0;border-radius:14px;border-bottom-left-radius:3px;padding:10px 13px;font-size:13px;line-height:1.5;color:#1a1a2e;max-width:88%;align-self:flex-start}
-.wsc-user{background:#1a1a2e;color:#fff;border-radius:14px;border-bottom-right-radius:3px;padding:10px 13px;font-size:13px;line-height:1.5;max-width:88%;align-self:flex-end}
-.wsc-wait{background:#fff;border:1px solid #e5e5e0;border-radius:14px;border-bottom-left-radius:3px;padding:12px 16px;align-self:flex-start;font-size:13px;color:#999}
-#wsc-inp-area{padding:10px 14px;background:#fff;border-top:1px solid #e5e5e0;display:flex;gap:8px;align-items:center}
-#wsc-inp{flex:1;border:1px solid #ddd;border-radius:10px;padding:8px 11px;font-size:13px;outline:none;font-family:Arial,sans-serif;color:#1a1a2e;background:#fafaf8}
-#wsc-send{width:36px;height:36px;border-radius:10px;background:#1a1a2e;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-#wsc-send svg{width:16px;height:16px;fill:#fff}
-#wsc-email-area{padding:12px 14px;background:#fff;border-top:1px solid #e5e5e0;display:none;flex-direction:column;gap:8px}
-#wsc-email-info{font-size:12px;color:#666;margin:0}
-#wsc-email-inp{border:1px solid #ddd;border-radius:10px;padding:8px 11px;font-size:13px;outline:none;font-family:Arial,sans-serif;color:#1a1a2e}
-#wsc-email-btn{background:#1a1a2e;color:#fff;border:none;border-radius:10px;padding:9px;font-size:13px;font-weight:bold;cursor:pointer;font-family:Arial,sans-serif}
-</style>
-
-<button id="wsc-btn">
-<svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
-</button>
-
-<div id="wsc-win">
-  <div id="wsc-head">
-    <div id="wsc-head-text">
-      <div id="wsc-head-title">Wistore Support</div>
-      <div id="wsc-head-sub">Svar inden for 5 hverdage</div>
-    </div>
-    <button id="wsc-close">&#x2715;</button>
-  </div>
-  <div id="wsc-msgs">
-    <div class="wsc-bot">Hej! Hvad kan jeg hj&#230;lpe dig med?</div>
-  </div>
-  <div id="wsc-inp-area">
-    <input type="text" id="wsc-inp" placeholder="Skriv dit sp&#248;rgsm&#229;l..." />
-    <button id="wsc-send">
-      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-    </button>
-  </div>
-  <div id="wsc-email-area">
-    <p id="wsc-email-info">Jeg fandt ikke et svar. Indtast din email, s&#229; kontakter vi dig inden for 5 hverdage.</p>
-    <input type="email" id="wsc-email-inp" placeholder="din@email.dk" />
-    <button id="wsc-email-btn">Send til support</button>
-  </div>
-</div>
-
-<script>
 (function() {
   var SCRIPT_URL = 'https://script.googleusercontent.com/macros/echo?user_content_key=AY5xjrQEsFaWb2wt9ayFKK9m9feQXCofezLxWzRFVyX1ZautYGuh-JoD1nNFKzNY9mWFpBW19qzlVYI7Si2h4mWaNcGgVOjxxKx1Zj_eVCSbvojYBb_UEdLkNJ7ZHr_vZE5RW7Sgn2CNxoB_qyvXL9Y92-mvLGFZPt8G7I8YBWFc2YU4aNjcRR2VrFiElB9CJKHi1337drF2VDtIbJOyhF-zdI4GrXtb0ui_VgyXAT9bzjxbkz6L_ayKH5Nl2vPs7YtbkNs44cH5t6DF3CB9cfU8ZefVnrnP8Q&lib=MQZijBxMD63k5DK2P-7_tfTsN0njFdvY1';
   var SUPPORT_EMAIL = 'support@wistore.dk';
   var THRESHOLD = 0.35;
 
-  var btn = document.getElementById('wsc-btn');
-  var win = document.getElementById('wsc-win');
+  // Inject CSS
+  var css = '#wsc-btn{position:fixed;bottom:24px;right:24px;width:56px;height:56px;border-radius:50%;background:#1a1a2e;border:none;cursor:pointer;z-index:99999;box-shadow:0 4px 16px rgba(0,0,0,0.2);display:flex;align-items:center;justify-content:center}' +
+    '#wsc-btn svg{width:26px;height:26px;fill:#fff}' +
+    '#wsc-win{position:fixed;bottom:90px;right:24px;width:340px;max-height:500px;background:#fff;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,0.15);display:none;flex-direction:column;z-index:99998;font-family:Arial,sans-serif;overflow:hidden}' +
+    '#wsc-head{background:#1a1a2e;color:#fff;padding:14px 18px;display:flex;align-items:center;gap:10px}' +
+    '#wsc-head-text{flex:1}' +
+    '#wsc-head-title{font-size:15px;font-weight:bold}' +
+    '#wsc-head-sub{font-size:11px;opacity:0.7;margin-top:2px}' +
+    '#wsc-close{background:none;border:none;color:#fff;font-size:22px;cursor:pointer;padding:0;line-height:1}' +
+    '#wsc-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:#f7f7f5;min-height:200px}' +
+    '.wsc-bot{background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:10px 13px;font-size:13px;line-height:1.5;color:#1a1a2e;max-width:88%;align-self:flex-start}' +
+    '.wsc-user{background:#1a1a2e;color:#fff;border-radius:14px;padding:10px 13px;font-size:13px;line-height:1.5;max-width:88%;align-self:flex-end}' +
+    '.wsc-wait{background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:12px 16px;align-self:flex-start;font-size:13px;color:#999}' +
+    '#wsc-inp-area{padding:10px 14px;background:#fff;border-top:1px solid #e5e5e0;display:flex;gap:8px;align-items:center}' +
+    '#wsc-inp{flex:1;border:1px solid #ddd;border-radius:10px;padding:8px 11px;font-size:13px;outline:none;font-family:Arial,sans-serif;color:#1a1a2e;background:#fafaf8}' +
+    '#wsc-send{width:36px;height:36px;border-radius:10px;background:#1a1a2e;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}' +
+    '#wsc-send svg{width:16px;height:16px;fill:#fff}' +
+    '#wsc-email-area{padding:12px 14px;background:#fff;border-top:1px solid #e5e5e0;display:none;flex-direction:column;gap:8px}' +
+    '#wsc-email-info{font-size:12px;color:#666;margin:0}' +
+    '#wsc-email-inp{border:1px solid #ddd;border-radius:10px;padding:8px 11px;font-size:13px;outline:none;font-family:Arial,sans-serif;color:#1a1a2e}' +
+    '#wsc-email-btn{background:#1a1a2e;color:#fff;border:none;border-radius:10px;padding:9px;font-size:13px;font-weight:bold;cursor:pointer}';
+
+  var style = document.createElement('style');
+  style.textContent = css;
+  document.head.appendChild(style);
+
+  // Build HTML
+  var btn = document.createElement('button');
+  btn.id = 'wsc-btn';
+  btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>';
+  document.body.appendChild(btn);
+
+  var win = document.createElement('div');
+  win.id = 'wsc-win';
+  win.innerHTML =
+    '<div id="wsc-head">' +
+      '<div id="wsc-head-text">' +
+        '<div id="wsc-head-title">Wistore Support</div>' +
+        '<div id="wsc-head-sub">Svar inden for 5 hverdage</div>' +
+      '</div>' +
+      '<button id="wsc-close">&#x2715;</button>' +
+    '</div>' +
+    '<div id="wsc-msgs">' +
+      '<div class="wsc-bot">Hej! Hvad kan jeg hj\u00e6lpe dig med?</div>' +
+    '</div>' +
+    '<div id="wsc-inp-area">' +
+      '<input type="text" id="wsc-inp" placeholder="Skriv dit sp\u00f8rgsm\u00e5l..." />' +
+      '<button id="wsc-send"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>' +
+    '</div>' +
+    '<div id="wsc-email-area">' +
+      '<p id="wsc-email-info">Jeg fandt ikke et svar. Indtast din email, s\u00e5 kontakter vi dig inden for 5 hverdage.</p>' +
+      '<input type="email" id="wsc-email-inp" placeholder="din@email.dk" />' +
+      '<button id="wsc-email-btn">Send til support</button>' +
+    '</div>';
+  document.body.appendChild(win);
+
+  // Wire up logic
   var closeBtn = document.getElementById('wsc-close');
   var msgs = document.getElementById('wsc-msgs');
   var inp = document.getElementById('wsc-inp');
@@ -70,7 +73,6 @@
   btn.onclick = function() {
     win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
   };
-
   closeBtn.onclick = function() {
     win.style.display = 'none';
   };
@@ -164,4 +166,3 @@
     xhr2.send(JSON.stringify({ action: 'escalate', question: lastQ, customerEmail: email }));
   };
 })();
-</script>

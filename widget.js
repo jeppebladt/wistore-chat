@@ -3,7 +3,6 @@
   var SUPPORT_EMAIL = 'support@wistore.dk';
   var THRESHOLD = 0.35;
 
-  // Inject CSS
   var css = '#wsc-btn{position:fixed;bottom:24px;right:24px;width:56px;height:56px;border-radius:50%;background:#1a1a2e;border:none;cursor:pointer;z-index:99999;box-shadow:0 4px 16px rgba(0,0,0,0.2);display:flex;align-items:center;justify-content:center}' +
     '#wsc-btn svg{width:26px;height:26px;fill:#fff}' +
     '#wsc-win{position:fixed;bottom:90px;right:24px;width:340px;max-height:500px;background:#fff;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,0.15);display:none;flex-direction:column;z-index:99998;font-family:Arial,sans-serif;overflow:hidden}' +
@@ -29,7 +28,6 @@
   style.textContent = css;
   document.head.appendChild(style);
 
-  // Build HTML
   var btn = document.createElement('button');
   btn.id = 'wsc-btn';
   btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>';
@@ -59,7 +57,6 @@
     '</div>';
   document.body.appendChild(win);
 
-  // Wire up logic
   var closeBtn = document.getElementById('wsc-close');
   var msgs = document.getElementById('wsc-msgs');
   var inp = document.getElementById('wsc-inp');
@@ -106,9 +103,9 @@
     showWait();
     sendBtn.disabled = true;
 
+    var url = SCRIPT_URL + '?action=search&question=' + encodeURIComponent(q);
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', SCRIPT_URL, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.open('GET', url, true);
     xhr.onreadystatechange = function() {
       if (xhr.readyState === 4) {
         hideWait();
@@ -123,7 +120,7 @@
               inpArea.style.display = 'none';
               emailArea.style.display = 'flex';
             }
-          } catch(e) {
+          } catch(ex) {
             addMsg('Der opstod en fejl. Kontakt os pa ' + SUPPORT_EMAIL, 'wsc-bot');
           }
         } else {
@@ -131,7 +128,7 @@
         }
       }
     };
-    xhr.send(JSON.stringify({ action: 'search', question: q }));
+    xhr.send();
   }
 
   sendBtn.onclick = function() {
@@ -155,14 +152,14 @@
     emailBtn.textContent = 'Sender...';
     emailBtn.disabled = true;
 
+    var url2 = SCRIPT_URL + '?action=escalate&question=' + encodeURIComponent(lastQ) + '&email=' + encodeURIComponent(email);
     var xhr2 = new XMLHttpRequest();
-    xhr2.open('POST', SCRIPT_URL, true);
-    xhr2.setRequestHeader('Content-Type', 'application/json');
+    xhr2.open('GET', url2, true);
     xhr2.onreadystatechange = function() {
       if (xhr2.readyState === 4) {
         emailArea.innerHTML = '<p style="color:#3b6d11;font-size:13px;padding:4px 0;">Tak! Vi vender tilbage inden for 5 hverdage.</p>';
       }
     };
-    xhr2.send(JSON.stringify({ action: 'escalate', question: lastQ, customerEmail: email }));
+    xhr2.send();
   };
 })();

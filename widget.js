@@ -1,5 +1,5 @@
 (function() {
-  var SCRIPT_URL = 'https://script.googleusercontent.com/macros/echo?user_content_key=AY5xjrQEsFaWb2wt9ayFKK9m9feQXCofezLxWzRFVyX1ZautYGuh-JoD1nNFKzNY9mWFpBW19qzlVYI7Si2h4mWaNcGgVOjxxKx1Zj_eVCSbvojYBb_UEdLkNJ7ZHr_vZE5RW7Sgn2CNxoB_qyvXL9Y92-mvLGFZPt8G7I8YBWFc2YU4aNjcRR2VrFiElB9CJKHi1337drF2VDtIbJOyhF-zdI4GrXtb0ui_VgyXAT9bzjxbkz6L_ayKH5Nl2vPs7YtbkNs44cH5t6DF3CB9cfU8ZefVnrnP8Q&lib=MQZijBxMD63k5DK2P-7_tfTsN0njFdvY1';
+  var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz52PULk_pBx61eKuBRSTQcEygKfjFXH-MHd7dHeOuUdRBbx3Hdss7BCwvS7nBJcfFW/exec';
   var SUPPORT_EMAIL = 'support@wistore.dk';
   var THRESHOLD = 0.35;
 
